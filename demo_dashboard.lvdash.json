@@ -1,0 +1,283 @@
+{
+  "datasets": [
+    {
+      "name": "031aa9f1",
+      "displayName": "Market Signals and Anomaly Insights Dataset",
+      "queryLines": [
+        "SELECT\n",
+        "  market_id,\n",
+        "  window_start,\n",
+        "  anomaly_score,\n",
+        "  volume,\n",
+        "  trade_count,\n",
+        "  imbalance,\n",
+        "  reason_tags\n",
+        "FROM parallax_demo.gold_parallax_signals"
+      ],
+      "catalog": "workspace",
+      "schema": "parallax_demo"
+    },
+    {
+      "name": "0dd90e2a",
+      "displayName": "Market Anomaly Insights with Top Trade Signals",
+      "queryLines": [
+        "SELECT\n",
+        "  market_id,\n",
+        "  window_start,\n",
+        "  anomaly_score,\n",
+        "  volume,\n",
+        "  trade_count,\n",
+        "  imbalance,\n",
+        "  reason_tags\n",
+        "FROM parallax_demo.gold_parallax_signals\n",
+        "ORDER BY anomaly_score DESC\n",
+        "LIMIT 20"
+      ]
+    },
+    {
+      "name": "bac4abeb",
+      "displayName": "Tesla Model Z Activity Anomaly Breakdown",
+      "queryLines": [
+        "SELECT\n",
+        "  window_start,\n",
+        "\n",
+        "  MAX(CASE \n",
+        "    WHEN anomaly_score <= 80 THEN anomaly_score \n",
+        "  END) AS normal_activity,\n",
+        "\n",
+        "  MAX(CASE \n",
+        "    WHEN anomaly_score > 80 THEN anomaly_score \n",
+        "  END) AS whale_activity\n",
+        "\n",
+        "FROM parallax_demo.gold_parallax_signals\n",
+        "WHERE market_id = 'tesla_model_z_before_june_30'\n",
+        "GROUP BY window_start\n",
+        "ORDER BY window_start"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "ca70df8c",
+      "displayName": "Untitled page 1",
+      "layout": [
+        {
+          "widget": {
+            "name": "leaderboard",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "031aa9f1",
+                  "fields": [
+                    {
+                      "name": "market_id",
+                      "expression": "`market_id`"
+                    },
+                    {
+                      "name": "anomaly_score",
+                      "expression": "`anomaly_score`"
+                    },
+                    {
+                      "name": "volume",
+                      "expression": "`volume`"
+                    },
+                    {
+                      "name": "trade_count",
+                      "expression": "`trade_count`"
+                    },
+                    {
+                      "name": "imbalance",
+                      "expression": "`imbalance`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "displayRowNumbers": true,
+              "frame": {
+                "showTitle": true,
+                "headerAlignment": "center",
+                "showDescription": false,
+                "title": "Top Market Distributions"
+              },
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "market_id",
+                    "displayName": "Market"
+                  },
+                  {
+                    "fieldName": "anomaly_score",
+                    "contentAlignment": "center",
+                    "displayName": "Score",
+                    "style": {
+                      "type": "basic",
+                      "rules": [
+                        {
+                          "condition": {
+                            "operand": {
+                              "type": "data-value",
+                              "value": "80"
+                            },
+                            "operator": ">="
+                          },
+                          "backgroundColor": {
+                            "themeColorType": "visualizationColors",
+                            "position": 4
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "fieldName": "volume",
+                    "displayName": "Volume"
+                  },
+                  {
+                    "fieldName": "trade_count",
+                    "displayName": "Trades"
+                  },
+                  {
+                    "fieldName": "imbalance",
+                    "displayName": "Imbalance"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 15
+          }
+        },
+        {
+          "widget": {
+            "name": "anomaly-detection-chart-tesla-model-z",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "bac4abeb",
+                  "fields": [
+                    {
+                      "name": "window_start",
+                      "expression": "`window_start`"
+                    },
+                    {
+                      "name": "normal_activity",
+                      "expression": "`normal_activity`"
+                    },
+                    {
+                      "name": "whale_activity",
+                      "expression": "`whale_activity`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 1,
+              "mark": {
+                "colors": [
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 1
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 4
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 4
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 5
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 6
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 7
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 8
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 9
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 10
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 10
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Anomaly Detection Chart (Tesla Model Z)"
+              },
+              "widgetType": "combo",
+              "encodings": {
+                "x": {
+                  "fieldName": "window_start",
+                  "scale": {
+                    "type": "temporal"
+                  }
+                },
+                "y": {
+                  "primary": {
+                    "fields": [
+                      {
+                        "fieldName": "normal_activity"
+                      },
+                      {
+                        "fieldName": "whale_activity"
+                      }
+                    ]
+                  },
+                  "secondary": {
+                    "fields": []
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 0,
+            "width": 6,
+            "height": 9
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}
