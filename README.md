@@ -1,8 +1,7 @@
-
 # Demo SQL Query Notebook
 
 ## Overview
-This notebook demonstrates how to use Databricks SQL queries within a Databricks notebook environment. It showcases querying, transforming, and visualizing data using Spark DataFrames and Databricks SQL syntax.
+This notebook demonstrates how to use Databricks SQL queries within a Databricks notebook environment. It showcases querying, transforming, and visualizing data using Spark DataFrames and Databrick[...]
 
 ## Features
 - Executing SQL queries using Databricks SQL.
@@ -23,8 +22,10 @@ This notebook demonstrates how to use Databricks SQL queries within a Databricks
 sql
 SELECT * FROM your_table LIMIT 10
 
+## Dashboard
+
+![the dashboard](db_dash.png)
 
 ## Notes
 - Use `display()` for rich data visualization.
 - Use `%pip` for package installation if needed.
-
